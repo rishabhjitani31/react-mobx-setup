@@ -2,7 +2,7 @@
 import axios from "axios";
 // import { Cookies } from "react-cookie";
 
-const appServiceName = "http://172.16.1.154:3000";
+const appServiceName = "http://172.16.1.38:8000";
 
 class RestfulProvider {
   // @observable cookies = new Cookies();
