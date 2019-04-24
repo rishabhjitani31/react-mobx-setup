@@ -93,7 +93,7 @@ class Dashboard extends Component {
           <Icon type="right-circle" onClick={this.next} />
         )}
         {slideData.length === Object.keys(selectedAnswers).length && (
-          <Button>Submit</Button>
+          <center><Button type="primary">Submit</Button></center>
         )}
       </div>
     );

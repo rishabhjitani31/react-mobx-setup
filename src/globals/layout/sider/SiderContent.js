@@ -7,14 +7,14 @@ const SiderContent = [
     children: [],
     route: "dashboard"
   },
-  {
-    role: ["role"],
-    icon: "copy",
-    name: "Requests",
-    key: "requests",
-    children: [],
-    route: "requests"
-  }
+  // {
+  //   role: ["role"],
+  //   icon: "copy",
+  //   name: "Requests",
+  //   key: "requests",
+  //   children: [],
+  //   route: "requests"
+  // }
 ];
 
 export default SiderContent;
