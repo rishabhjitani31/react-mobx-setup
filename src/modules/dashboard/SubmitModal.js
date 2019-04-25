@@ -34,7 +34,7 @@ class SubmitModal extends Component {
           } else {
             performance = "excellent";
           }
-          const handleCancel = this.handleCancel;
+          this.handleCancel();
           Modal.info({
             title: "This is a quiz result",
             content: (
@@ -43,9 +43,7 @@ class SubmitModal extends Component {
                 <p>Your Performance is {performance}</p>
               </div>
             ),
-            onOk() {
-              handleCancel();
-            }
+            onOk() {}
           });
         } catch (err) {
           console.log(err);
