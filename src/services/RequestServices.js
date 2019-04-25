@@ -22,5 +22,9 @@ class RequestServices {
   getQuestionsList = () => {
     return RestfulProvider.get("api/questions");
   };
+
+  postQuizResults = data => {
+    return RestfulProvider.post("api/results", data);
+  };
 }
 export default new RequestServices();

@@ -3,6 +3,7 @@ import { observer, inject } from "mobx-react";
 import { observable, toJS } from "mobx";
 import apiService from "../../services/RequestServices";
 import { Spin, Carousel, Icon, Radio, Button } from "antd";
+import SubmitModal from "./SubmitModal";
 const RadioGroup = Radio.Group;
 // import { Input } from "antd";
 
@@ -16,21 +17,30 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.props = props;
-    this.next = this.next.bind(this);
-    this.previous = this.previous.bind(this);
     this.carousel = React.createRef();
   }
 
-  next() {
+  onSubmit = () => {
+    const { selectedAnswers } = this.getData();
+    const correctAnswers = Object.entries(selectedAnswers)
+      .map(([k, v]) => v)
+      .filter(v => v);
+    const score = correctAnswers.length;
+    this.props.dashboard.setScore(score);
+    this.props.dashboard.toggleModalState(true);
+  };
+
+  next = () => {
     this.carousel.next();
     const { currentIndex } = this.getData();
     this.currentIndex = currentIndex + 1;
-  }
-  previous() {
+  };
+
+  previous = () => {
     this.carousel.prev();
     const { currentIndex } = this.getData();
     this.currentIndex = currentIndex - 1;
-  }
+  };
 
   getData = () => {
     const selectedAnswers = toJS(this.selectedAnswers);
@@ -93,8 +103,13 @@ class Dashboard extends Component {
           <Icon type="right-circle" onClick={this.next} />
         )}
         {slideData.length === Object.keys(selectedAnswers).length && (
-          <center><Button type="primary">Submit</Button></center>
+          <center>
+            <Button onClick={this.onSubmit} type="primary">
+              Submit
+            </Button>
+          </center>
         )}
+        <SubmitModal />
       </div>
     );
   };
