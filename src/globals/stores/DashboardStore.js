@@ -5,6 +5,8 @@ class GlobalStore {
   @observable visible = false;
   @observable score = 0;
   @observable slideData = null;
+  @observable currentIndex = 0;
+  @observable selectedAnswers = [];
 
   onChange = e => {
     this.inputValue = e.target.value;
@@ -20,6 +22,14 @@ class GlobalStore {
 
   setSlideData = slideData => {
     this.slideData = slideData;
+  };
+
+  setCurrentIndex = currentIndex => {
+    this.currentIndex = currentIndex;
+  };
+
+  setSelectedAnswers = selectedAnswers => {
+    this.selectedAnswers = selectedAnswers;
   };
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
-import { observable, toJS } from "mobx";
+import { toJS } from "mobx";
 import apiService from "../../services/RequestServices";
 import { Spin, Carousel, Icon, Radio, Button } from "antd";
 import SubmitModal from "./SubmitModal";
@@ -10,10 +10,6 @@ const RadioGroup = Radio.Group;
 @inject("dashboard")
 @observer
 class Dashboard extends Component {
-  @observable data = null;
-  @observable currentIndex = 0;
-  @observable currentChecked = [];
-  @observable selectedAnswers = [];
   constructor(props) {
     super(props);
     this.props = props;
@@ -33,19 +29,19 @@ class Dashboard extends Component {
   next = () => {
     this.carousel.next();
     const { currentIndex } = this.getData();
-    this.currentIndex = currentIndex + 1;
+    this.props.dashboard.setCurrentIndex(currentIndex + 1);
   };
 
   previous = () => {
     this.carousel.prev();
     const { currentIndex } = this.getData();
-    this.currentIndex = currentIndex - 1;
+    this.props.dashboard.setCurrentIndex(currentIndex - 1);
   };
 
   getData = () => {
-    const selectedAnswers = toJS(this.selectedAnswers);
-    const currentIndex = toJS(this.currentIndex);
-    const slideData = toJS(this.data);
+    const selectedAnswers = toJS(this.props.dashboard.selectedAnswers);
+    const currentIndex = toJS(this.props.dashboard.currentIndex);
+    const slideData = toJS(this.props.dashboard.slideData);
     return { selectedAnswers, currentIndex, slideData };
   };
 
@@ -54,21 +50,21 @@ class Dashboard extends Component {
     const selectedAnswer = slideData[currentIndex].answerOptions.find(
       a => a.id === e.target.value
     );
-    this.selectedAnswers = {
+    this.props.dashboard.setSelectedAnswers({
       ...selectedAnswers,
       [currentIndex]: selectedAnswer.istrue
-    };
+    });
   };
 
   async componentDidMount() {
     const res = await apiService.getQuestionsList();
-    this.data = res;
+    this.props.dashboard.setSlideData(res);
   }
 
   renderComponent = () => {
     const { slideData, currentIndex, selectedAnswers } = this.getData();
     // console.log("observable", slideData.length === selectedAnswers.length);
-    console.log("currentChecked", selectedAnswers);
+    // console.log("slideData", slideData);
     const props = {
       dots: true,
       speed: 500,
@@ -115,7 +111,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    return <>{this.data ? this.renderComponent() : <Spin />}</>;
+    return <>{this.getData().slideData ? this.renderComponent() : <Spin />}</>;
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Form, Input, Icon, Button } from "antd";
+import { Modal, Form, Input, Icon, Button, message } from "antd";
 import { observer, inject } from "mobx-react";
 import { toJS } from "mobx";
 import apiService from "../../services/RequestServices";
@@ -35,6 +35,11 @@ class SubmitModal extends Component {
             performance = "excellent";
           }
           this.handleCancel();
+          this.props.dashboard.setSelectedAnswers([]);
+          this.props.dashboard.setCurrentIndex(0);
+          this.props.dashboard.setSlideData(null);
+          const slideData = await apiService.getQuestionsList();
+          this.props.dashboard.setSlideData(slideData);
           Modal.info({
             title: "This is a quiz result",
             content: (
@@ -46,7 +51,8 @@ class SubmitModal extends Component {
             onOk() {}
           });
         } catch (err) {
-          console.log(err);
+          message.error("Error in submitting the response", 3);
+          // console.log(err);
         }
       }
     });
