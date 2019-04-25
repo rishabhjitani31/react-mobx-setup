@@ -41,14 +41,14 @@ class SubmitModal extends Component {
           const slideData = await apiService.getQuestionsList();
           this.props.dashboard.setSlideData(slideData);
           Modal.info({
-            title: "This is a quiz result",
+            title: "Quiz result",
             content: (
               <div>
                 <p>Your Score is {score}</p>
                 <p>Your Performance is {performance}</p>
               </div>
             ),
-            onOk() {}
+            onOk() { }
           });
         } catch (err) {
           message.error("Error in submitting the response", 3);
