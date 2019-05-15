@@ -4,6 +4,7 @@ import { toJS } from "mobx";
 import apiService from "../../services/RequestServices";
 import { Spin, Carousel, Icon, Radio, Button } from "antd";
 import SubmitModal from "./SubmitModal";
+import { withRouter } from "react-router-dom";
 const RadioGroup = Radio.Group;
 // import { Input } from "antd";
 
@@ -61,10 +62,12 @@ class Dashboard extends Component {
     this.props.dashboard.setSlideData(res);
   }
 
+  onBack = () => {
+    this.props.history.push('/dashboard');
+  }
+
   renderComponent = () => {
     const { slideData, currentIndex, selectedAnswers } = this.getData();
-    // console.log("observable", slideData.length === selectedAnswers.length);
-    // console.log("slideData", slideData);
     const props = {
       dots: true,
       speed: 500,
@@ -77,36 +80,43 @@ class Dashboard extends Component {
       lineHeight: "30px"
     };
     return (
-      <div>
-        {currentIndex !== 0 && (
-          <Icon type="left-circle" onClick={this.previous} />
-        )}
-        <Carousel ref={node => (this.carousel = node)} {...props}>
-          {slideData.map(d => (
-            <div key={String(d.id)}>
-              <h3>{d.questionName}</h3>
-              <RadioGroup onChange={this.onChange}>
-                {d.answerOptions.map(a => (
-                  <Radio key={String(a.id)} style={radioStyle} value={a.id}>
-                    {a.answerName}
-                  </Radio>
-                ))}
-              </RadioGroup>
-            </div>
-          ))}
-        </Carousel>
-        {currentIndex !== slideData.length - 1 && (
-          <Icon type="right-circle" onClick={this.next} />
-        )}
-        {slideData.length === Object.keys(selectedAnswers).length && (
-          <center>
-            <Button onClick={this.onSubmit} type="primary">
-              Submit
+      <React.Fragment>
+        <div>
+          {currentIndex !== 0 && (
+            <Icon type="left-circle" onClick={this.previous} />
+          )}
+          <Carousel ref={node => (this.carousel = node)} {...props}>
+            {slideData.map(d => (
+              <div key={String(d.id)}>
+                <h3>{d.questionName}</h3>
+                <RadioGroup onChange={this.onChange}>
+                  {d.answerOptions.map(a => (
+                    <Radio key={String(a.id)} style={radioStyle} value={a.id}>
+                      {a.answerName}
+                    </Radio>
+                  ))}
+                </RadioGroup>
+              </div>
+            ))}
+          </Carousel>
+          {currentIndex !== slideData.length - 1 && (
+            <Icon type="right-circle" onClick={this.next} />
+          )}
+          {slideData.length === Object.keys(selectedAnswers).length && (
+            <center>
+              <Button onClick={this.onSubmit} type="primary">
+                Submit
             </Button>
-          </center>
-        )}
-        <SubmitModal />
-      </div>
+            </center>
+          )}
+          <SubmitModal />
+        </div>
+        <center>
+          <Button onClick={this.onBack} type="primary">
+            Back
+          </Button>
+        </center>
+      </React.Fragment>
     );
   };
 
@@ -115,4 +125,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);

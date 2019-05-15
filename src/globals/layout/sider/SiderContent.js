@@ -2,10 +2,10 @@ const SiderContent = [
   {
     role: ["role"],
     icon: "home",
-    name: "Dashboard",
+    name: "Home",
     key: "dashboard",
     children: [],
-    route: "dashboard"
+    route: "home"
   },
   // {
   //   role: ["role"],
