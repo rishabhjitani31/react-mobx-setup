@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { Layout } from "antd";
 import Header from "./header";
 import Sider from "./sider";
+import Footer from './footer';
 import "./MainLayout.scss";
 
 const { Content } = Layout;
@@ -10,7 +11,7 @@ const { Content } = Layout;
 const MainLayout = ({ children }) => {
     return (
         <Layout>
-            <Sider />
+            {/* <Sider /> */}
             <Layout
                 style={{
                     minHeight: "100vh"
@@ -22,6 +23,7 @@ const MainLayout = ({ children }) => {
                 }}>
                     {children}
                 </Content>
+                <Footer />
             </Layout>
         </Layout>
     );
